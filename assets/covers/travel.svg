@@ -1,1 +1,17 @@
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef4ef"/>
+      <stop offset="1" stop-color="#dce9df"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <circle cx="520" cy="80" r="46" fill="none" stroke="#2f5d3a" stroke-width="2" opacity=".35"/>
+  <circle cx="520" cy="80" r="26" fill="none" stroke="#2f5d3a" stroke-width="2" opacity=".2"/>
+  <path d="M80 260 Q200 180 320 240 T600 220" fill="none" stroke="#2f5d3a" stroke-width="2.5" opacity=".55"/>
+  <circle cx="80" cy="260" r="6" fill="#2f5d3a"/>
+  <circle cx="320" cy="240" r="6" fill="#2f5d3a"/>
+  <circle cx="600" cy="220" r="6" fill="#2f5d3a"/>
+  <text x="80" y="120" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="44" font-weight="700" fill="#23231f">旅游规划器</text>
+  <text x="80" y="160" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="18" fill="#6b6a63">输入目的地和天数，生成行程草案</text>
+</svg>
