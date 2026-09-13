@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>旅游规划器</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #fafaf8; color: #23231f; line-height: 1.7;
+    display: flex; justify-content: center; padding: 40px 16px;
+  }
+  .app { width: 100%; max-width: 620px; }
+  h1 { font-size: 26px; margin-bottom: 4px; }
+  .sub { color: #6b6a63; font-size: 14px; margin-bottom: 24px; }
+  .panel {
+    background: #fff; border: 1px solid #e4e2dc; border-radius: 10px;
+    padding: 22px; margin-bottom: 20px;
+  }
+  label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  select, input {
+    width: 100%; padding: 10px 12px; font-size: 15px;
+    border: 1px solid #e4e2dc; border-radius: 8px; background: #fff;
+    margin-bottom: 16px; font-family: inherit;
+  }
+  button {
+    width: 100%; padding: 12px; font-size: 16px; font-weight: 600;
+    background: #2f5d3a; color: #fff; border: 0; border-radius: 8px; cursor: pointer;
+  }
+  button:hover { opacity: .9; }
+  .day { background: #fff; border: 1px solid #e4e2dc; border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; }
+  .day h3 { font-size: 16px; margin-bottom: 8px; color: #2f5d3a; }
+  .day ul { padding-left: 20px; font-size: 15px; }
+  .tip { font-size: 13px; color: #6b6a63; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>旅游规划器</h1>
+  <p class="sub">输入目的地和天数，生成一份可以动手改的行程草案。</p>
 
+  <div class="panel">
+    <label for="dest">目的地</label>
+    <select id="dest"></select>
+
+    <label for="days">旅行天数（1–5 天）</label>
+    <input id="days" type="number" min="1" max="5" value="3">
+
+    <label for="pace">节奏</label>
+    <select id="pace">
+      <option value="relaxed">轻松：每天 2 个点</option>
+      <option value="normal" selected>适中：每天 3 个点</option>
+      <option value="tight">紧凑：每天 4 个点</option>
+    </select>
+
+    <button id="go">生成行程草案</button>
+  </div>
+
+  <div id="result"></div>
+  <p class="tip">草案只是起点：顺序可调、点可删减，真正的好行程是改出来的。</p>
+</div>
+
+<script>
+// 目的地数据：写死的示例数据，可按需扩充
+var DATA = {
+  '京都': ['伏见稻荷大社', '清水寺', '祇园花见小路', '岚山竹林', '金阁寺', '二条城', '锦市场', '哲学之道', '三十三间堂', '鸭川散步', '南禅寺', '宇治平等院'],
+  '青岛': ['栈桥', '八大关', '小麦岛公园', '信号山公园', '啤酒博物馆', '台东夜市', '奥帆中心', '小鱼山', '石老人海水浴场', '大学路咖啡街'],
+  '成都': ['大熊猫繁育研究基地', '宽窄巷子', '武侯祠', '锦里', '杜甫草堂', '人民公园喝茶', '春熙路', '青城山', '都江堰', '玉林路小酒馆']
+};
+var PACE_COUNT = { relaxed: 2, normal: 3, tight: 4 };
+var SLOTS = ['上午', '下午', '傍晚', '晚上'];
+
+var destSel = document.getElementById('dest');
+Object.keys(DATA).forEach(function (name) {
+  var opt = document.createElement('option');
+  opt.value = name; opt.textContent = name;
+  destSel.appendChild(opt);
+});
+
+document.getElementById('go').addEventListener('click', function () {
+  var dest = destSel.value;
+  var days = Math.max(1, Math.min(5, parseInt(document.getElementById('days').value, 10) || 1));
+  var perDay = PACE_COUNT[document.getElementById('pace').value];
+  var spots = DATA[dest].slice();
+  var html = '';
+
+  for (var d = 1; d <= days; d++) {
+    html += '<div class="day"><h3>第 ' + d + ' 天 · ' + dest + '</h3><ul>';
+    for (var s = 0; s < perDay; s++) {
+      if (!spots.length) break;
+      var idx = Math.floor(Math.random() * spots.length);
+      html += '<li>' + SLOTS[s] + '：' + spots.splice(idx, 1)[0] + '</li>';
+    }
+    html += '</ul></div>';
+  }
+  document.getElementById('result').innerHTML = html;
+});
+</script>
+</body>
+</html>
